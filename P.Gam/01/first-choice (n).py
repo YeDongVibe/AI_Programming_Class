@@ -1,4 +1,4 @@
-import random
+import random as rd
 import math
 
 DELTA = 0.01   # Mutation step size
@@ -18,16 +18,34 @@ def main():
     displayResult(solution, minimum)
 
 
-def createProblem(): ###
+def createProblem():
     ## Read in an expression and its domain from a file.
+    filename = input("파일명을 입력하세요 : ")
+    filename = f"C:/Ye_Dong/AI_Programming/P.Gam/01/problem/{filename}.txt"
+    infile = open(filename, 'r')
     ## Then, return a problem 'p'.
     ## 'p' is a tuple of 'expression' and 'domain'.
     ## 'expression' is a string.
+    expression = infile.readline().strip()  # 파일 첫번째 줄 읽기, strip()으로 공백 제거
     ## 'domain' is a list of 'varNames', 'low', and 'up'.
     ## 'varNames' is a list of variable names.
-    ## 'low' is a list of lower bounds of the varaibles.
-    ## 'up' is a list of upper bounds of the varaibles.
+    ## 'low' is a list of lower bounds of the variables.
+    ## 'up' is a list of upper bounds of the variables.
+    varName = []
+    low = []
+    up = []
+    line = infile.readline().strip()  # strip()으로 공백 제거
+    while line != '':
+        data = line.split(',')
+        varName.append(data[0])
+        low.append(float(data[1]))
+        up.append(float(data[2]))
+        line = infile.readline().strip()  # strip()으로 공백 제거
+
+    domain = [varName, low, up]
+    infile.close()
     return expression, domain
+
 
 
 def firstChoice(p):
@@ -46,9 +64,17 @@ def firstChoice(p):
     return current, valueC
 
 
-def randomInit(p): ###
-    return init    # Return a random initial point
-                   # as a list of values
+def randomInit(p): 
+    init = [] # 초기화
+    domain = p[1] # low 정보
+    low = domain[1]
+    up = domain[2] # up 정보
+    for i in range(len(low)):
+        r = rd.uniform(low[i], up[i])
+        init.append(r)
+
+    return init    # Return a random initial point as a list of values
+
 
 def evaluate(current, p):
     ## Evaluate the expression of 'p' after assigning
@@ -64,7 +90,10 @@ def evaluate(current, p):
     return eval(expr)
 
 
-def randomMutant(current, p): ###
+def randomMutant(current, p): 
+    i = rd.randint(0, len(current)-1) # index : -1을 하는 이유는 마지막꺼 안쓸려구
+    d = rd.uniform(-DELTA, DELTA)
+
     return mutate(current, i, d, p) # Return a random successor
 
 
