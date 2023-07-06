@@ -8,7 +8,7 @@ def createProblem():
     ## Read in a TSP (# of cities, locatioins) from a file.
     ## Then, create a problem instance and return it.
     fileName = input("Enter the file name of a TSP: ")
-    fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/Search_Tool_v1_program_codes_modules/problem/{fileName}.txt" 
+    fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/02/Search_Tool_v1_program_codes_modules/problem/{fileName}.txt"    
     infile = open(fileName, 'r')
     # First line is number of cities
     numCities = int(infile.readline()) #첫번째 라인: 도시수

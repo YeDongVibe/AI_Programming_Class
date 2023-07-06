@@ -8,7 +8,7 @@ NumEval = 0    # Total number of evaluations
 def createProblem(): ###
     ## Read in an expression and its domain from a file.
     fileName = input("Enter the filename of a fuction: ")
-    fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/Search_Tool_v2/problem/{fileName}.txt"    
+    fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/02/Search_Tool_v1_program_codes_modules/problem/{fileName}.txt"    
     # fileName = f"C:/K-Digital3/AI_Programming/Mr.Gam/Search Tool v1 - program codes/problem/{fileName}.txt"
     infile = open(fileName, 'r')
     ## Then, return a problem 'p'.

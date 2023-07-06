@@ -1,7 +1,4 @@
-import sys
-sys.path.append(r'C:/Ye_Dong/AI_Programming/P.Gam/Search_Tool_v1_program_codes_modules')
-
-from tsp import *
+from problem.tsp import *
 
 def main():
     # Create an instance of TSP
@@ -33,7 +30,7 @@ def mutants(current, p): # Apply inversion
     count = 0
     triedPairs = [] #비교해서 같은 값이 있는지 없는지 체크용
     while count <= n:  # Pick two random loci for inversion
-        i, j = sorted([random.randrange(n) for _ in range(2)]) #random 하게 2개 값을 뽑아냄
+        i, j = sorted([rd.randrange(n) for _ in range(2)]) #random 하게 2개 값을 뽑아냄
         if i < j and [i, j] not in triedPairs:
             triedPairs.append([i, j])
             curCopy = inversion(current, i, j) #뽑은 구간을 inversion한다.뒤집기 고고

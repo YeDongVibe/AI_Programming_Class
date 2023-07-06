@@ -1,24 +1,23 @@
-import sys
-sys.path.append(r'C:/Ye_Dong/AI_Programming/P.Gam/Search_Tool_v1_program_codes_modules')
-
-from numeric import *
+from problem.problem import Numeric
 
 def main():
     # Create an instance of numerical optimization problem
-    p = createProblem()   # 'p': (expr, domain) #튜플은 값 변환이 안됨
+    p = Numeric()
+    p.setVariables() # 'p': (expr, domain) #튜플은 값 변환이 안됨
     # Call the search algorithm
-    solution, minimum = steepestAscent(p)
+    solution, minimum = steepestAscent(p) #
     # Show the problem and algorithm settings
-    describeProblem(p)
-    displaySetting()
+    p.storeResult(solution, minimum)
+    p.describe()
+    displaySetting(p)
     # Report results
-    displayResult(solution, minimum)
+    p.report()
 
 def steepestAscent(p):
-    current = randomInit(p) # 'current' is a list of values, 계속 업데이트되는 파트/ randomInit()-> 시작점을 모르기 떄매 random하게 넣어쥼
-    valueC = evaluate(current, p) #valueC 시작점에 해당하는 함수값
+    current = p.randomInit() # 'current' is a list of values, 계속 업데이트되는 파트/ randomInit()-> 시작점을 모르기 떄매 random하게 넣어쥼
+    valueC = p.evaluate(current) #valueC 시작점에 해당하는 함수값
     while True:
-        neighbors = mutants(current, p)
+        neighbors = p.mutants(current)
         successor, valueS = bestOf(neighbors, p) #successor(제일 좋은 변수), valueS(제일 좋은 함수값)
         if valueS >= valueC: #현재보다 좋은지 비교(후보값: valueS)
             break #후보값이 더 크면 나빠진 것임으로 탈출
@@ -27,32 +26,22 @@ def steepestAscent(p):
             valueC = valueS
     return current, valueC
 
-def mutants(current, p): ###
-    neighbors = []
-    for i in range(len(current)):
-        mutant = mutate(current, i, DELTA, p)
-        neighbors.append(mutant)
-        mutant = mutate(current, i, -DELTA, p)
-        neighbors.append(mutant)
-
-    return neighbors     # Return a set of successors
-
 def bestOf(neighbors, p): ###
     best = neighbors[0]
-    bestValue = evaluate(best, p)
-
-    # for successor in range(1, len(neighbors)):
-    #     successorVal = evaluate(successor, p)
-    #     if successorVal < bestValue:
-    #         best = successor
-    #         bestValue = successorVal     
+    bestValue = p.evaluate(best)
 
     for i in range(1, len(neighbors)):
-        newValue = evaluate(neighbors[i], p)
+        newValue = p.evaluate(neighbors[i])
         if newValue < bestValue:
             best = neighbors[i]
             bestValue = newValue
 
     return best, bestValue
 
+def displaySetting(p):
+    print()
+    print("Search algorithm: Steepest-Ascent Hill Climbing")
+    print()
+    print("Mutation step size:", p.getDelta)
+    
 main()

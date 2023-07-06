@@ -1,4 +1,4 @@
-import random
+import random as rd
 import math
 
 LIMIT_STUCK = 100 # Max number of evaluations enduring no improvement
@@ -8,7 +8,7 @@ def createProblem():
     ## Read in a TSP (# of cities, locatioins) from a file.
     ## Then, create a problem instance and return it.
     fileName = input("Enter the file name of a TSP: ")
-    fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/Search_Tool_v2/problem/{fileName}.txt" 
+    fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/02/Search_Tool_v2/problem/{fileName}.txt" 
     infile = open(fileName, 'r')
     # First line is number of cities
     numCities = int(infile.readline()) #첫번째 라인: 도시수
@@ -38,7 +38,7 @@ def calcDistanceTable(numCities, locations): ###
 def randomInit(p):   # Return a random initial tour
     n = p[0] #도시 수
     init = list(range(n)) #0~n-1까지의 리스트가 만들어짐
-    random.shuffle(init)
+    rd.shuffle(init)
     return init
 
 def evaluate(current, p): ###

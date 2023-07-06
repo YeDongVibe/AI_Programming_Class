@@ -1,7 +1,4 @@
-import sys
-sys.path.append(r'C:/K-Digital3/AI_Programming/Mr.Gam/Search Tool v1 - program codes - modules/problem')
-
-from tsp import *
+from problem.tsp import *
 
 def main():
     # Create an instance of TSP

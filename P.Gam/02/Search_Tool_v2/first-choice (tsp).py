@@ -1,7 +1,4 @@
-import sys
-sys.path.append(r'C:/Ye_Dong/AI_Programming/P.Gam/Search_Tool_v1_program_codes_modules')
-
-from tsp import *
+from problem.tsp import *
 
 def main():
     # Create an instance of TSP
@@ -31,7 +28,7 @@ def firstChoice(p):
 
 def randomMutant(current, p): # Apply inversion
     while True:
-        i, j = sorted([random.randrange(p[0])
+        i, j = sorted([rd.randrange(p[0])
                        for _ in range(2)])
         if i < j:
             curCopy = inversion(current, i, j)
