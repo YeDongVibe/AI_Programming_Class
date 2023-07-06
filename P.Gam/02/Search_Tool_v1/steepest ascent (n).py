@@ -20,7 +20,7 @@ def main():
 def createProblem():
     ## Read in an expression and its domain from a file.
     filename = input("파일명을 입력하세요 : ")
-    filename = f"C:/Ye_Dong/AI_Programming/P.Gam/01/problem/{filename}.txt"
+    filename = f"C:/Ye_Dong/AI_Programming/P.Gam/Search_Tool_v1/problem/{filename}.txt"
     infile = open(filename, 'r')
     ## Then, return a problem 'p'.
     ## 'p' is a tuple of 'expression' and 'domain'.

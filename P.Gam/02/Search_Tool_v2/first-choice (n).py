@@ -1,6 +1,6 @@
 #import numeric
 import sys
-sys.path.append(r'C:\Ye_Dong\AI_Programming\P.Gam\Search_Tool_v1_program_codes_modules')
+sys.path.append(r'C:/Ye_Dong/AI_Programming/P.Gam/Search_Tool_v1_program_codes_modules')
 
 from numeric import *
 
