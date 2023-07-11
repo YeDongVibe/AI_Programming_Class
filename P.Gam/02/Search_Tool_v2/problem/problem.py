@@ -40,9 +40,13 @@ class Numeric(Problem): # Problem에서 상속을 받겠다
         self._expression = ''
         self._domian = []
         self._delta = 0.01
+        self._Limit = 100
     
     def getDelta(self): # displaysetting에서 delta를 사용하기 위해
         return self._delta
+    
+    def getLimit(self):
+        return self._Limit
      
     def setVariables(self): # createProblem
         ## Read in an expression and its domain from a file.
@@ -163,11 +167,13 @@ class Tsp(Problem): # Problem에서 상속을 받겠다
         self._locations = []
         self._distanceTable = []
 
+    
     def setVariables(self):
         ## Read in a TSP (# of cities, locatioins) from a file.
         ## Then, create a problem instance and return it.
         fileName = input("Enter the file name of a TSP: ")
-        fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/02/Search_Tool_v2/problem/{fileName}.txt" 
+        #fileName = 'problem/{filename}.txt'
+        fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/02/Search_Tool_v2/problem/{fileName}.txt"
         infile = open(fileName, 'r')
         # First line is number of cities
         self._numCities = int(infile.readline()) #첫번째 라인: 도시수
@@ -236,7 +242,7 @@ class Tsp(Problem): # Problem에서 상속을 받겠다
                 neighbors.append(curCopy)
         return neighbors #n개의 후보를 뽑게 됨
     
-    def inversion(sefl, current, i, j):  ## Perform inversion
+    def inversion(self, current, i, j):  ## Perform inversion
         curCopy = current[:]
         while i < j:
             curCopy[i], curCopy[j] = curCopy[j], curCopy[i] #i번째 j번째 해당하는 값 한번에 바꿔버리기

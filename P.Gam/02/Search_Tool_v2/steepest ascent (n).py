@@ -42,6 +42,6 @@ def displaySetting(p):
     print()
     print("Search algorithm: Steepest-Ascent Hill Climbing")
     print()
-    print("Mutation step size:", p.getDelta)
+    print("Mutation step size:",p.getDelta())
     
 main()

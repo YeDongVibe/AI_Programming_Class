@@ -1,23 +1,26 @@
-from problem.tsp import *
+from problem.problem import Tsp
+LIMIT_STUCK = 100
 
 def main():
     # Create an instance of TSP
-    p = createProblem()    # 'p': (numCities, locations, distanceTable)
+    p = Tsp()    # 'p': (numCities, locations, distanceTable)
+    p.setVariables()
     # Call the search algorithm
     solution, minimum = firstChoice(p)
     # Show the problem and algorithm settings
-    describeProblem(p)
+    p.storeResult(solution, minimum)
+    p.describe()
     displaySetting()
     # Report results
-    displayResult(solution, minimum)
+    p.report()
 
 def firstChoice(p):
-    current = randomInit(p)   # 'current' is a list of city ids
-    valueC = evaluate(current, p)
+    current = p.randomInit()   # 'current' is a list of city ids
+    valueC = p.evaluate(current)
     i = 0
     while i < LIMIT_STUCK:
-        successor = randomMutant(current, p) #i, j번째 랜덤하게 추출해서 돌리는 것
-        valueS = evaluate(successor, p)
+        successor = p.randomMutant(current) #i, j번째 랜덤하게 추출해서 돌리는 것
+        valueS = p.evaluate(successor)
         if valueS < valueC:
             current = successor
             valueC = valueS
@@ -26,13 +29,11 @@ def firstChoice(p):
             i += 1
     return current, valueC
 
-def randomMutant(current, p): # Apply inversion
-    while True:
-        i, j = sorted([rd.randrange(p[0])
-                       for _ in range(2)])
-        if i < j:
-            curCopy = inversion(current, i, j)
-            break
-    return curCopy
+
+def displaySetting():
+    print()
+    print("Search algorithm: First-Choice Hill Climbing")
+    print("Max evaluations with no improvement: {0:,} iterations"
+          .format(LIMIT_STUCK))
 
 main()

@@ -1,24 +1,27 @@
 #import numeric
-from problem.numeric import *
+from problem.problem import Numeric
+LIMIT_STUCK = 100
 
 def main():
     # Create an instance of numerical optimization problem
-    p = createProblem()   # 'p': (expr, domain)
+    p = Numeric()   # 'p': (expr, domain)
+    p.setVariables()
     # Call the search algorithm
     solution, minimum = firstChoice(p)
     # Show the problem and algorithm settings
-    describeProblem(p)
-    displaySetting()
+    p.storeResult(solution, minimum)
+    p.describe()
+    displaySetting(p)
     # Report results
-    displayResult(solution, minimum)
+    p.report()
 
 def firstChoice(p):
-    current = randomInit(p)   # 'current' is a list of values
-    valueC = evaluate(current, p)
+    current = p.randomInit()   # 'current' is a list of values
+    valueC = p.evaluate(current)
     i = 0
     while i < LIMIT_STUCK:
-        successor = randomMutant(current, p)
-        valueS = evaluate(successor, p)
+        successor = p.randomMutant(current)
+        valueS = p.evaluate(successor)
         if valueS < valueC:
             current = successor
             valueC = valueS
@@ -27,14 +30,14 @@ def firstChoice(p):
             i += 1
     return current, valueC
 
-def randomMutant(current, p): ###
-    i = rd.randint(0, len(current) - 1) #우리는 0,1,2,3,4를 뽑아내야대기 때문에 '-1'해줘야한다.
-    # d = rd.uniform(-DELTA, DELTA)
-    if rd.uniform(0,1) > 0.5:
-        d = DELTA
-    else:
-        d = -DELTA
-    return mutate(current, i, d, p) # Return a random successor
+
+def displaySetting(p):
+    print()
+    print("Search algorithm: First-Choice Hill Climbing")
+    print()
+    print("Mutation step size:", p.getDelta())
+    print("Max evaluations with no improvement: {0:,} iterations"
+          .format(LIMIT_STUCK))
 
 main()
 
