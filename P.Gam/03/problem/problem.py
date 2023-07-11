@@ -38,15 +38,20 @@ class Numeric(Problem): # Problem에서 상속을 받겠다
     def __init__(self):
         Problem.__init__(self) # important : super class의 initialize한 걸 쓰겠다.
         self._expression = ''
-        self._domian = []
+        self._domain = []
         self._delta = 0.01
-        self._Limit = 100
+
+        self._alpha = 0.01
+        self._dx = 10**(-4)
     
     def getDelta(self): # displaysetting에서 delta를 사용하기 위해
         return self._delta
     
-    def getLimit(self):
-        return self._Limit
+    def getalpha(self):
+        return self._alpha
+    
+    def getdx(self):
+        return self._dx
      
     def setVariables(self): # createProblem
         ## Read in an expression and its domain from a file.
@@ -77,6 +82,41 @@ class Numeric(Problem): # Problem에서 상속을 받겠다
 
         self._domain = [varNames, low, up]
         infile.close()
+    
+    def takeStep(self, x, v) : # x : 현재 변수값 / v : 함숫값
+        #alpha, dx 변수 필요
+        grad = self.gradient(x,v)
+        xCopy = x[:]
+        for i in range(len(x)):
+            xCopy[i] -= self._alpha*(grad[i])
+        if self.isLegal(xCopy):
+            return xCopy # domain 범위 내면 업데이트
+        else:
+            return x # domain 범위 넘어가면 그대로 
+        
+    def isLegal(self, x):
+        domain = self._domain
+        low = domain[1]
+        up = domain[2]
+        
+        for i in range(len(low)):
+            if (low[i] <= x[i] <= up[i]):
+                pass
+            else:
+                return False
+            
+        return True
+                
+    def gradient(self, x, v):
+        grad = []
+        xCopy = x[:]
+        for i in range(len(x)):
+            xCopy = x[:] # 원래 x값을 건들지 않기 위해 값 Copy
+            xCopy[i] += self._dx # dx만큼 증가한 x값을 xCopy에 저장
+            df = self.evaluate(xCopy)- v # 함수값 변화
+            g = df / self._dx # f' 구하기
+            grad.append(g)
+        return grad
     
     def randomInit(self):
         domain = self._domain # domain : [varNames, low, up]
