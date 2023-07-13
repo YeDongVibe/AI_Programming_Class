@@ -32,6 +32,6 @@ def displaySetting(p):
     print()
     print("Search algorithm : Gradient Descent")
     print()
-    print("Mutation step size:",p.getDelta())
+    print("step size:", p.getalpha())
     
 main()
