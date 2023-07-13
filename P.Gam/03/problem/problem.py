@@ -1,11 +1,9 @@
-from Setup import Setup
 import math
 import random as rd
 
 # interface
 class Problem:
     def __init__(self): # 생성자 
-        Setup.__init__(self) # 최상위(super) class를 선언해 정의
         self._solution = [] # 변수 앞에 언더바(_)를 붙이는 이유는 class변수임을 명시하는 것
         self._value = 0
         self._numEval = 0
@@ -41,6 +39,9 @@ class Numeric(Problem): # Problem에서 상속을 받겠다
         Problem.__init__(self) # important : super class의 initialize한 걸 쓰겠다.
         self._expression = ''
         self._domain = []
+        self._delta = 0.01
+        self._alpha = 0.01
+        self._dx = 10**(-4)
 
     
     def getDelta(self): # displaysetting에서 delta를 사용하기 위해
