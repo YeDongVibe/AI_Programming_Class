@@ -1,0 +1,9 @@
+inches,.083333
+furlongs,660
+yards,3
+fathoms,6
+feet,1
+kilometers,3281.5
+meters,3.2815
+miles,5280
+rods,16.5
