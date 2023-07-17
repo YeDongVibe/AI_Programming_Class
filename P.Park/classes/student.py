@@ -1,4 +1,6 @@
-class Student:
+from abc import * # abstractBaseClass 불러오기
+
+class Student(metaclass=ABCMeta):
     def __init__(self, name="", midterm=0, final=0):
         self._name = name
         self._midterm = midterm
@@ -15,7 +17,12 @@ class Student:
 
     def getName(self):
         return self._name     
-        
+    
+    @abstractmethod    
+    def calcSemGrade(self):
+        pass
+        # raise NotImplementedError("You must 뭐시기") # rasie : 사용자가 직접 에러를 일으킴
+    
     def __str__(self):
         return self._name + "\t" + self.calcSemGrade()
      
