@@ -27,12 +27,12 @@ def readValidPlan():  # Gradient Descent cannot solve TSP
     return parameters
 
 def readPlan():
-    fileName = input("Enter the file name of experimental setting: ")
-    # fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/05/problem/{fileName}.txt"
+    fileName = input("Enter the file name of experimental setting: ")    
+    # fileName = f"C:/K-Digital3/AI_Programming/Mr.Gam/Search Tool v4/{fileName}.txt"    
     infile = open(fileName, 'r')
     parameters = { 'pType':0, 'pFileName':'', 'aType':0, 'delta':0,
                    'limitStuck':0, 'alpha':0, 'dx':0, 'numRestart':0,
-                   'limitEval':0, 'numExp':0 } # save input data
+                   'limitEval':0, 'numExp':0 }
     parNames = list(parameters.keys())
     for i in range(len(parNames)):
         line = lineAfterComments(infile)
@@ -41,7 +41,7 @@ def readPlan():
         else:
             parameters[parNames[i]] = eval(line.rstrip().split(':')[-1][1:])
     infile.close()
-    return parameters             # Return a dictionary of parameters
+    return parameters             # Return a dictionary of parameters        # Return a dictionary of parameters
 
 def lineAfterComments(infile):    # Ignore lines beginning with '#'
     line = infile.readline()      # and then return the first line
@@ -116,4 +116,3 @@ def conductExperiment(p, alg): # 주석처리는 Simulated Annealing과 random~~
     p.storeExpResult(results)
 
 main()
-
