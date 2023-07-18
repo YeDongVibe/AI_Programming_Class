@@ -5,7 +5,18 @@ class HillClimbing:
         Setup.__init__(self) #alpha, delta, dx 상속받음
         self._pType = 0
         self._limitStock = 100
-    
+        
+        self._numExp = 0
+        self._numRestart = 0
+        
+    def setVariables(self, parameters):
+        Setup.setVariables(self, parameters)
+        self._pType = parameters['pType']
+        self._limitStock = parameters['limitStuck']
+        self._numExp = parameters['numExp']
+        self._numRestart = parameters['numRestart']
+
+         
     def run(self):
         pass
         
@@ -14,10 +25,7 @@ class HillClimbing:
             print()
             print("Mutation step size : ", self._delta)
             print()
-            
-    def setVariables(self, pType):
-        self._pType = pType
-        
+              
 
 class SteepestAscent(HillClimbing):
     # 상속받기에 init method를 안써도 된다.즉 상위클래스의 init method를 사용

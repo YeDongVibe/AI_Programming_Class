@@ -10,9 +10,27 @@ class Problem:
         self._value = 0
         self._numEval = 0
         
-    def setVariables(self): # createProblem
-        pass
+        self._bestSolution = []
+        self._bestMinimum = 0.0
+        self._avgMinimum = 0.0
+        self._avgNumEval = 0
+        self._sumOfNumEval = 0
+        
+        self._pFileName = 'C:/Ye_Dong/AI_Programming/P.Gam/05/problem/'
+        
+    def getSolution(self):
+        return self._solution
     
+    def getValue(self):
+        return self._value
+    
+    def getNumEval(self):
+        return self._numEval
+
+    def setVariables(self, parameters): # createProblem
+        self._pFileName = parameters['pFileName'] # overridng 했기에 Setup에 있는 setVariables는 불러오지 않음
+        Setup.setVariables(self, parameters) # 이후 Setup의 setVariables을 적용
+        
     def randomInit(self):
         pass
     
@@ -32,9 +50,16 @@ class Problem:
         self._solution = solution
         self._value = value
     
+    def storeExpResult(self, results):
+        self._bestSolution = results[0]
+        self._bestMinimum = results[1]
+        self._avgMinimum = results[2]
+        self._avgNumEval = results[3]
+        self._sumOfNumEval = results[4]
+    
     def report(self): # numEval을 출력해주는 함수
         print()
-        print("Total number of evaluations: {0:,}".format(self._numEval))
+        print("Aberage number of evaluations: {0:,}".format(self._avgNumEval))
 
 class Numeric(Problem): # Problem에서 상속을 받겠다 
     def __init__(self):
@@ -42,22 +67,11 @@ class Numeric(Problem): # Problem에서 상속을 받겠다
         self._expression = ''
         self._domain = []
 
-    
-    def getDelta(self): # displaysetting에서 delta를 사용하기 위해
-        return self._delta
-    
-    def getalpha(self):
-        return self._alpha
-    
-    def getdx(self):
-        return self._dx
      
-    def setVariables(self): # createProblem
+    def setVariables(self, parameters): # createProblem
         ## Read in an expression and its domain from a file.
-        fileName = input("Enter the filename of a fuction: ")
-        fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/02/Search_Tool_v2/problem/{fileName}.txt"
-        # fileName = f"C:/K-Digital3/AI_Programming/Mr.Gam/Search Tool v1 - program codes/problem/{fileName}.txt"
-        infile = open(fileName, 'r')
+        Problem.setVariables(self, parameters)
+        infile = open(self._pFileName, 'r')
         ## Then, return a problem 'p'.
         ## 'p' is a tuple of 'expression' and 'domain'.
         ## 'expression' is a string.
@@ -190,13 +204,14 @@ class Numeric(Problem): # Problem에서 상속을 받겠다
     
     def report(self): # numEval을 출력해주는 함수
         print()
-        print("Solution found:")
+        print('Average Objective value: {0:,}'.format(self._avgMinimum))
+        print("Best Solution found:")
         print(self.coordinate())  # Convert list to tuple
-        print("Minimum value: {0:,.3f}".format(self._value)) # self._value는 minimun을 의미
+        print("Best Minimum value: {0:,.3f}".format(self._bestMinimum)) # self._value는 minimun을 의미
         Problem.report(self) # == super().report
 
     def coordinate(self):
-        c = [round(value, 3) for value in self._solution] # self._solution의 각각의 값을 value
+        c = [round(value, 3) for value in self._bestSolution] # self._solution의 각각의 값을 value
         return tuple(c)  # Convert the list to a tuple
     
 class Tsp(Problem): # Problem에서 상속을 받겠다
@@ -207,13 +222,11 @@ class Tsp(Problem): # Problem에서 상속을 받겠다
         self._distanceTable = []
 
     
-    def setVariables(self):
+    def setVariables(self, parameters):
         ## Read in a TSP (# of cities, locatioins) from a file.
         ## Then, create a problem instance and return it.
-        fileName = input("Enter the file name of a TSP: ")
-        #fileName = 'problem/{filename}.txt'
-        fileName = f"C:/Ye_Dong/AI_Programming/P.Gam/02/Search_Tool_v2/problem/{fileName}.txt"
-        infile = open(fileName, 'r')
+        Problem.setVariables(self, parameters)
+        infile = open(self._pFileName, 'r')
         # First line is number of cities
         self._numCities = int(infile.readline()) #첫번째 라인: 도시수
 
@@ -313,9 +326,10 @@ class Tsp(Problem): # Problem에서 상속을 받겠다
                 
     def report(self): # numEval을 출력해주는 함수
         print()
-        print("Best order of visits:")
+        print('Average tour cost: {0:,}'.format(round(self._avgMinimum)))
+        print("Best of Best order of visits:")
         self.tenPerRow()       # Print 10 cities per row
-        print("Minimum tour cost: {0:,}".format(round(self._value)))
+        print("Best Minimum tour cost: {0:,}".format(round(self._bestMinimum)))
         Problem.report(self)
 
     def tenPerRow(self):
