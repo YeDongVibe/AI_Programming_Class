@@ -1,0 +1,5 @@
+DEBUG:root:Debug >> input: 3 4, output=7
+INFO:root:info >> input: 3 4, output=7
+WARNING:root:warring >> input: 3 4, output=7
+ERROR:root:error >> input: 3 4, output=7
+CRITICAL:root:critical >> input: 3 4, output=7
